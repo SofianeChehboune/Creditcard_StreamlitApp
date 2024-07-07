@@ -45,12 +45,12 @@ def display():
     st.write("Vérification")
     st.write(card_df.isnull().sum())
 # page2_visualisation
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+    import streamlit as st
+    import pandas as pd
+    import seaborn as sns
+    import matplotlib.pyplot as plt
 
-def display():
+    def display():
     # URL du fichier Dropbox
     dropbox_url = "https://www.dropbox.com/scl/fi/95kkevx66y0teeyrqrfnp/creditcard.csv?rlkey=svlt3izx0v6qntwca7afrvop1&st=rfbftb3m&dl=1"
 
@@ -71,14 +71,14 @@ def display():
     sns.countplot(x='Class', data=card_df, ax=ax)
     st.pyplot(fig)
 # page3_ml
-import streamlit as st
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, roc_auc_score, roc_curve
-import matplotlib.pyplot as plt
+    import streamlit as st
+    import pandas as pd
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.metrics import classification_report, roc_auc_score, roc_curve
+    import matplotlib.pyplot as plt
 
-def display():
+    def display():
     # URL du fichier Dropbox
     dropbox_url = "https://www.dropbox.com/scl/fi/95kkevx66y0teeyrqrfnp/creditcard.csv?rlkey=svlt3izx0v6qntwca7afrvop1&st=rfbftb3m&dl=1"
 
