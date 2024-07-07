@@ -1,4 +1,10 @@
 import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, roc_auc_score, roc_curve
 
 # Titre de l'application
 st.title("Analyse et Détection de Fraude par Carte de Crédit")
@@ -7,36 +13,24 @@ st.title("Analyse et Détection de Fraude par Carte de Crédit")
 pages = ["Filtrage des données", "Visualisation des données", "Machine Learning - Random Forest"]
 page = st.sidebar.selectbox("Choisissez une page", pages)
 
-if page == "Filtrage des données":
-    import page1_filtrage as page1
-    page1.display()
-elif page == "Visualisation des données":
-    import page2_visualisation as page2
-    page2.display()
-elif page == "Machine Learning - Random Forest":
-    import page3_ml as page3
-    page3.display()
-    # page1_filtrage
-import streamlit as st
-import pandas as pd
+# URL du fichier Dropbox
+dropbox_url = "https://www.dropbox.com/scl/fi/95kkevx66y0teeyrqrfnp/creditcard.csv?rlkey=svlt3izx0v6qntwca7afrvop1&st=rfbftb3m&dl=1"
 
-def display():
-    # URL du fichier Dropbox
-    dropbox_url = "https://www.dropbox.com/scl/fi/95kkevx66y0teeyrqrfnp/creditcard.csv?rlkey=svlt3izx0v6qntwca7afrvop1&st=rfbftb3m&dl=1"
+# Chargement des données
+@st.cache_data
+def load_data(url):
+    return pd.read_csv(url)
 
-    # Chargement des données
-    @st.cache_data
-    def load_data(url):
-        return pd.read_csv(url)
+card_df = load_data(dropbox_url)
 
-    card_df = load_data(dropbox_url)
-
+def display_filtrage():
     # Filtrage des données
     st.header("Filtrage des données")
     st.write("Données de tête")
     st.write(card_df.head())
+
     # Description des données 
-    st.header("Description des donnéess")
+    st.header("Description des données")
     st.write("Description")
     st.write(card_df.describe())
 
@@ -44,23 +38,8 @@ def display():
     st.header("Vérification des valeurs manquantes")
     st.write("Vérification")
     st.write(card_df.isnull().sum())
-# page2_visualisation
-    import streamlit as st
-    import pandas as pd
-    import seaborn as sns
-    import matplotlib.pyplot as plt
 
-    def display():
-    # URL du fichier Dropbox
-    dropbox_url = "https://www.dropbox.com/scl/fi/95kkevx66y0teeyrqrfnp/creditcard.csv?rlkey=svlt3izx0v6qntwca7afrvop1&st=rfbftb3m&dl=1"
-
-    # Chargement des données
-    @st.cache_data
-    def load_data(url):
-        return pd.read_csv(url)
-
-    card_df = load_data(dropbox_url)
-
+def display_visualisation():
     # Visualisation des données
     st.header("Visualisation des données")
     st.write("Distribution des classes")
@@ -70,25 +49,8 @@ def display():
     fig, ax = plt.subplots()
     sns.countplot(x='Class', data=card_df, ax=ax)
     st.pyplot(fig)
-# page3_ml
-    import streamlit as st
-    import pandas as pd
-    from sklearn.model_selection import train_test_split
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.metrics import classification_report, roc_auc_score, roc_curve
-    import matplotlib.pyplot as plt
 
-    def display():
-    # URL du fichier Dropbox
-    dropbox_url = "https://www.dropbox.com/scl/fi/95kkevx66y0teeyrqrfnp/creditcard.csv?rlkey=svlt3izx0v6qntwca7afrvop1&st=rfbftb3m&dl=1"
-
-    # Chargement des données
-    @st.cache_data
-    def load_data(url):
-        return pd.read_csv(url)
-
-    card_df = load_data(dropbox_url)
-
+def display_ml():
     # Machine Learning avec Random Forest
     st.header("Machine Learning - Random Forest")
 
@@ -128,5 +90,9 @@ def display():
     ax.legend(loc="lower right")
     st.pyplot(fig)
 
-
-
+if page == "Filtrage des données":
+    display_filtrage()
+elif page == "Visualisation des données":
+    display_visualisation()
+elif page == "Machine Learning - Random Forest":
+    display_ml()
